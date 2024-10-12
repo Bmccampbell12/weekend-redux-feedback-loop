@@ -1,0 +1,13 @@
+.form-container {
+    text-align: center;
+    margin: 20px;
+}
+
+#feeling-input {
+    width: 300px
+}
+
+button {
+    margin-top: 15px;
+}
+

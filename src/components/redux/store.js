@@ -1,5 +1,6 @@
-import { applyMiddleware, combineReducers, configureStore } from "redux";
-import logger from "redux-logger";
+import { applyMiddleware, combineReducers } from 'redux';
+import { createStore } from 'redux';
+import logger from 'redux-logger';
 
 // Reducer to handle feeling feedback 
 const feeling = (state = [], action) => {
@@ -49,7 +50,7 @@ const feeling = (state = [], action) => {
 
     // store configuration
 
-    const store = configureStore(
+    const store = createStore(
         combineReducers({
             feeling,
             understanding,

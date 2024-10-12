@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import 'FeedbackReview.css';
+import './FeedbackReview.css';
 
 // Acess to feedback object from store.
 function FeedbackReview() {
