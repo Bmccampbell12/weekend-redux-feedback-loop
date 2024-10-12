@@ -1,32 +1,31 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import './UnderstandingForm.css';
+import './SupportForm.css';
 import { TextField, Button } from '@mui/material';
 
-
-function UnderstandingForm() {
+function SupportForm() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const [understanding, setUnderstanding] = useState(1); // Sets initail value to 1
+    const [support, setSupport] = useState(1); // Sets initail value to 1
 
-    const handleUnderstandingInput = (event) => {
-        setUnderstanding(event.target.value)
+    const handleSupportInput = (event) => {
+        setSupport(event.target.value)
         }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (understanding < 1 || understanding > 5) {
+        if (support < 1 || support > 5) {
             alert('Please enter a number between 1 and 5')
 
             return
         }
          dispatch({
-            type: "ADD_UNDERSTANDING",
-            payload: understanding,
+            type: "ADD_SUPPORT",
+            payload: support,
         });
-        history.push('/support'); // Will navigate to the next part of the feedback form
+        history.push('/comments'); // Will navigate to the next part of the feedback form
     };
 
     return (    
@@ -36,12 +35,12 @@ function UnderstandingForm() {
             <h2>How well do you understand the material?</h2>
             <form onSubmit={handleSubmit}>
                 <TextField
-                id="understanding-input"
-                variant="outlined"
-                label=" understanding (1-5)"
+                id="filled-basic"
+                variant="filled"
+                label=" support (1-5)"
                 type="number"
-                onChange={handleUnderstandingInput}
-                value={understanding}
+                onChange={handleSupportInput}
+                value={support}
                 placeHolder="Rate 1-5"
                 inputProps={{ min: 1, max: 5 }}
                 />
@@ -58,4 +57,4 @@ function UnderstandingForm() {
 
 }
 
-export default UnderstandingForm;
+export default SupportForm;

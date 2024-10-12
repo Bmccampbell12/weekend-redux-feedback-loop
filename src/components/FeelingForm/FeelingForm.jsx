@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import '../FeelingForm.css';
+import './FeelingForm.css';
 import { TextField, Button } from '@mui/material';
 
 function FeelingForm() {
@@ -22,10 +22,10 @@ function FeelingForm() {
             return
         }
          dispatch({
-            type: "ADD_UNDERSTANDING",
+            type: "ADD_FEELING",
             payload: feeling,
         });
-        history.push('/support'); // Will navigate to the next part of the feedback form
+        history.push('/understanding'); // Will navigate to the next part of the feedback form
     };
 
     return (    
@@ -35,14 +35,15 @@ function FeelingForm() {
             <h2>How are you feeling today?</h2>
             <form onSubmit={handleSubmit}>
                 <TextField
-                id="feeling-input"
+                data-testid="input"
                 variant="filled"
                 label=" feeling (1-5)"
                 type="number"
                 onChange={handleFeelingInput}
                 value={feeling}
-                placeHolder="Rate 1-5"
+                placeolder="Rate 1-5"
                 inputProps={{ min: 1, max: 5 }}
+                sx={{ width: 1/4 }}
                 />
                 
                 <Button variant="contained" color= "primary" type="submit">

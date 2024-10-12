@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-
+import '@mui/material'
 import './index.css';
 import App from './components/App/App';
-import store from './components/redux/store';
+import store from './redux/store';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
