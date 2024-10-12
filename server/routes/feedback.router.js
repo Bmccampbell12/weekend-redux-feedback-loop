@@ -2,11 +2,62 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../modules/pool')
 
-
-// TODO: This route adds a new feedback entry
-router.post('/', (req, res) => {
-
+// GET route to retrieve feedback submissions.
+router.get('/', (req, res) => {
+    pool.query('SELECT * FROM "feedback";')
+    .then((result) => {
+        res.send(result.rows);
+    }).catch((error) => {
+        console.log('Error in GET /api/feeback', error);
+        res.sendStatus(500);
+    });
 })
+//This route adds a new feedback entry
+    // POST a new submission
+    router.post('/', async (req, res) => {
+        const client = await pool.connect();
+        try {
+
+            const { 
+                id, 
+                feeling,
+                understanding, 
+                support, 
+                comments, 
+                flagged, 
+                date 
+            } = req.body;
+            await client.query('BEGIN');
+            
+            // Inserts submission details into the "feedback" table
+            const feedbackInsertResults = await client.query(`INSERT INTO "feedback" ("id", "feeling", "understanding", "support", "comments", "flagged", "date")
+                VALUES ($1, $2, $3, $4, $5, $6, $7) 
+                RETURNING id;`, [id, feeling, understanding, support, comments, flagged, date]);
+                const feedbackId = feedbackInsertResults.row[0].id;
+
+                // Inserts each feedback result page into the "line_item" table.
+                await Promise.all(reviews.map(review => {
+                    const insterLineItemText = `INSERT INTO "line_item" ("feedback_id, "review") VALUES ($1, $2)`;
+                    const insertLineItemValues = [feedbackId, review.Id]
+                    return client.query(insterLineItemText, insertLineItemValues);
+                }));
+
+                await client.query('COMMIT')
+                res.sendStatus(201);
+                console.log('Feedback submitted successfully')
+            } catch (error) {
+                await client.query('ROLLBACK')
+                console.log('Error in POST /api/feedback', error)
+                res.sendStatus(500)
+                .send('Server error');
+
+            } finally {
+                client.release()
+            }
+        
+    });
+
+            // ? create route to DELETE feedback submission. 
 
 
 // DO NOT EDIT THIS ROUTE
