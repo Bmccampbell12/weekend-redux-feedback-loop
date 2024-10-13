@@ -41,8 +41,7 @@ function FeelingForm() {
                 type="number"
                 onChange={handleFeelingInput}
                 value={feeling}
-                placeolder="Rate 1-5"
-                inputProps={{ min: 1, max: 5 }}
+                placeholder="Rate 1-5"
                 sx={{ width: 1/4 }}
                 />
                 

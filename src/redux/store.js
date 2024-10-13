@@ -1,6 +1,6 @@
-import { applyMiddleware, combineReducers } from 'redux';
-import { createStore } from 'redux';
+import { applyMiddleware, legacy_createStore, combineReducers } from 'redux';
 import logger from 'redux-logger';
+import feedbackReducer from './feedbackReducer';
 
 // Reducer to handle feeling feedback 
 const feeling = (state = [], action) => {
@@ -16,7 +16,7 @@ const feeling = (state = [], action) => {
     if (action.type === "SET_UNDERSTANDING") {
       return [...state, action.payload];
     }else if (action.type === "RESET_FEEDBACK") {
-      return 0;
+      return [];
     }
     return state;
   };
@@ -24,8 +24,8 @@ const feeling = (state = [], action) => {
     const support = (state = [], action) => {
         if (action.type === "SET_SUPPORT") {
           return [...state, action.payload];
-        }else if (action.type === "RESET_FEEDBACK") {
-          return 0;
+        } else if (action.type === "RESET_FEEDBACK") {
+          return [];
         }
         return state;
       };
@@ -33,12 +33,12 @@ const feeling = (state = [], action) => {
       const comments = (state = "", action) => {
         if (action.type === "SET_COMMENTS") {
           return [...state, action.payload];
-        }else if (action.type === "RESET_FEEDBACK") {
+        } else if (action.type === "RESET_FEEDBACK") {
           return "";
         }
         return state;
       };
-       // Reducer to handle support feedback submission.
+       // Main Reducer to handle overall feedback submission.
     const feedback = (state = [], action) => {
         if (action.type === "SUBMIT_FEEBACK") {
           return [...state, action.payload];
@@ -47,18 +47,22 @@ const feeling = (state = [], action) => {
         }
         return state;
     };
-
+          // Combines reducer into one root ruducer
+    const rootReducer = combineReducers({
+      feedback: feedbackReducer,   // Main feedback Reducer
+      feeling,                     // handles Feelings feedback
+      understanding,               // handles understanding feedback
+      support,                     // handles support feedback
+      comments,                    // handles comments feedback
+      feedback,                    // handles feedback submission
+    });
+    
+    // Redux store with the rootReducer and logger middleware
     // store configuration
 
-    const store = createStore(
-        combineReducers({
-            feeling,
-            understanding,
-            support,
-            comments,
-            feedback,
-        }),
-        applyMiddleware(logger)
+    const store = legacy_createStore(
+           rootReducer,
+           applyMiddleware(logger)
     );
 
     export default store;

@@ -28,21 +28,26 @@ useEffect(() => {
     <>
     <Router>
     <div className='App'>
-      <Route path="/" exact>
-      <FeelingForm fetchFeelingForm={FeelingForm} />
-      </Route>
-      <Route path="/f"></Route>
+      <Route path=""></Route>
       <header className='App-header'>
         <h1 className='App-title'>Feedback!</h1>
         <h4>Don't forget it!</h4>
       </header>
-
-// Roues go here later
-<Route>
-
-  </Route>
-
-
+      <Route path="/" exact>
+         <FeelingForm fetchFeelingForm={FeelingForm} />
+      </Route>
+      <Route path="/understanding" exact>
+         <UnderstandingForm fetchUnderstandingForm={UnderstandingForm} />
+         </Route>
+      <Route path='/support' exact>
+         <SupportForm fetchSupportForm={SupportForm} />
+         </Route>
+         <Route path="/comments" exact>
+         <CommentsForm fetchCommentsForm={CommentsForm} />
+         </Route>
+         <Route path="/review" exact>
+         <FeedbackReview fetchFeedbackReview={FeedbackReview} />
+         </Route>
     </div>
     </Router>
     </>

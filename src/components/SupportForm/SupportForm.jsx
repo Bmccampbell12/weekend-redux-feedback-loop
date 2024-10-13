@@ -41,8 +41,8 @@ function SupportForm() {
                 type="number"
                 onChange={handleSupportInput}
                 value={support}
-                placeHolder="Rate 1-5"
-                inputProps={{ min: 1, max: 5 }}
+                placeholder="Rate 1-5"
+                sx={{ width: 1/4 }}
                 />
                 
                 <Button variant="contained" color= "primary" type="submit">

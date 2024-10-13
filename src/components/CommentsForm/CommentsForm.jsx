@@ -20,7 +20,10 @@ function CommentsForm() {
             type: "ADD_COMMENTS",
             payload: comments,
         });
-        history.push('/review'); // Will navigate to the next part of the feedback form
+        if (history.location.pathname !== '/review') {
+            history.push('/review'); 
+        }
+        // Will navigate to the next part of the feedback form
     };
 
     return (    
@@ -35,11 +38,11 @@ function CommentsForm() {
                 label="comments"
                 type="text"
                 multiline
-                rows={4}
+                rows={3}
                 onChange={handleCommentsInput}
                 value={comments}
-                placeHolder="Enter your comments"
-                sx={{ width: '100%' }}
+                placeholder="Enter your comments"
+                sx={{ width: '80%' }}
                 />
                 
                 <Button variant="contained" color= "primary" type="submit">

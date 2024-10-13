@@ -1,33 +1,43 @@
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import './FeedbackReview.css';
 
 // Acess to feedback object from store.
 function FeedbackReview() {
-    const feedback = useSelector((store) => store.feedback); 
+
     const history = useHistory();  // for nav capability
     const dispatch = useDispatch();  // dispatch actions to store
 
+    const feeling = useSelector((store) => store.feeling)
+    const understanding = useSelector((store) => store.understanding)
+    const support = useSelector((store) => store.support)
+    const comments = useSelector((store) => store.comments)
+
+
     // Constructs the feedback data with required fields from store
     const feedbackData = {
-        feeling: feedback.feedback.feeling,
-        understanding: feedback.feedback.understanding,
-        support: feedback.feedback.support,
-        comments: feedback.feedback.comments,
+          feeling: feeling[0],
+          understanding: understanding[0],
+          support: support[0],
+          comments: comments,
     };
+
     // Function to handle submission form 
     const handleSubmit = () => {
         axios.post('/api/feedback', feedbackData)  // POST request to server for feedback
-        .then((rersponse) => {
-            history.push('/');  // redirect to home after success
-            dispatch({  // resets the feedback form
-                type: 'RESET_FEEDBACK',
+        .then((response) => {
+                history.push('/'); 
+                console.log('error') // redirect to home after success
+            dispatch({  
+                type: 'RESET_ALL_FEEDBACK', // Resets the feedback.
             });
         }).catch((err) => { // logs any errors that may have occured
             console.error('Error submitting feedback', err)
         })
-    };
+
+    }
+
     // Renders the Feedback Review section
     return (
         <>
@@ -40,10 +50,10 @@ function FeedbackReview() {
             <div className="reviewBox">
                 <h3>Review Your Feedback</h3>
                 <ul>
-                    <li>Feeling {feedback.feedback.feeling}</li>
-                    <li>Understanding {feedback.feedback.understanding}</li>
-                    <li>Support {feedback.feedback.support}</li>
-                    <li>Comments {feedback.feedback.comments}</li>
+                    <li>Feeling: {feeling[0]}</li>
+                    <li>Understanding: {understanding[0]}</li>
+                    <li>Support: {support[0]}</li>
+                    <li>Comments: {comments}</li>
                 </ul>
             </div>
             <button onClick={handleSubmit}>SUBMIT FEEDBACK</button>

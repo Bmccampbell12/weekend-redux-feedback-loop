@@ -19,26 +19,26 @@ router.get('/', (req, res) => {
         try {
 
             const { 
-                id, 
                 feeling,
                 understanding, 
                 support, 
                 comments, 
-                flagged, 
-                date 
             } = req.body;
-            await client.query('BEGIN');
+            
             
             // Inserts submission details into the "feedback" table
-            const feedbackInsertResults = await client.query(`INSERT INTO "feedback" ("id", "feeling", "understanding", "support", "comments", "flagged", "date")
-                VALUES ($1, $2, $3, $4, $5, $6, $7) 
-                RETURNING id;`, [id, feeling, understanding, support, comments, flagged, date]);
+            const feedbackInsertResults = await client.query(`INSERT INTO "feedback" ("feeling", "understanding", "support", "comments", "flagged", "date")
+                VALUES ($1, $2, $3, $4, $5, NOW()) 
+                RETURNING id;`, [feeling, understanding, support, comments, false]);
+
                 const feedbackId = feedbackInsertResults.row[0].id;
+
+                const reviews = req.body.reviews || [];
 
                 // Inserts each feedback result page into the "line_item" table.
                 await Promise.all(reviews.map(review => {
                     const insterLineItemText = `INSERT INTO "line_item" ("feedback_id, "review") VALUES ($1, $2)`;
-                    const insertLineItemValues = [feedbackId, review.Id]
+                    const insertLineItemValues = [feedbackId, review]
                     return client.query(insterLineItemText, insertLineItemValues);
                 }));
 
