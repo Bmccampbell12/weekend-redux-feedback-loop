@@ -8,20 +8,21 @@ function CommentsForm() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const [comments, setComments] = useState(''); // Sets initail value to 1
+    const [comments, setComments] = useState(''); // Sets initial value to empty string
 
-    const handleCommentsInput = (event) => {
+    const handleCommentsInput = (event) => { // updates comments when user types in input field
         setComments(event.target.value)
         }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-         dispatch({
+         dispatch({     // dispatches comments to store
             type: "ADD_COMMENTS",
+            url: '/feedback',
             payload: comments,
         });
-        if (history.location.pathname !== '/review') {
-            history.push('/review'); 
+        if (history.location.pathname !== '/review') {     
+            history.push('/review'); // navigates to the review page
         }
         // Will navigate to the next part of the feedback form
     };

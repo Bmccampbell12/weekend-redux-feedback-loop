@@ -30,7 +30,7 @@ const feeling = (state = [], action) => {
         return state;
       };
       // Reducer to handle comments feedback.
-      const comments = (state = "", action) => {
+      const comments = (state = " ", action) => {
         if (action.type === "SET_COMMENTS") {
           return [...state, action.payload];
         } else if (action.type === "RESET_FEEDBACK") {
@@ -46,22 +46,20 @@ const feeling = (state = [], action) => {
           return [];
         }
         return state;
-    };
-          // Combines reducer into one root ruducer
-    const rootReducer = combineReducers({
-      feedback: feedbackReducer,   // Main feedback Reducer
-      feeling,                     // handles Feelings feedback
-      understanding,               // handles understanding feedback
-      support,                     // handles support feedback
-      comments,                    // handles comments feedback
-      feedback,                    // handles feedback submission
-    });
+      }
     
     // Redux store with the rootReducer and logger middleware
     // store configuration
 
     const store = legacy_createStore(
-           rootReducer,
+      combineReducers({
+        feedback: feedbackReducer,   // Main feedback Reducer
+      feeling,                     // handles Feelings feedback
+      understanding,               // handles understanding feedback
+      support,                     // handles support feedback
+      comments,                    // handles comments feedback
+      feedback,               
+      }),
            applyMiddleware(logger)
     );
 

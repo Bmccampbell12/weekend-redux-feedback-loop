@@ -48,6 +48,8 @@ useEffect(() => {
          <Route path="/review" exact>
          <FeedbackReview fetchFeedbackReview={FeedbackReview} />
          </Route>
+         <Route path="/thank-you" exact>
+         ThanYouPage /</Route>
     </div>
     </Router>
     </>

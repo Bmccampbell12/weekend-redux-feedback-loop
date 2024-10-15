@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
             
             
             // Inserts submission details into the "feedback" table
-            const feedbackInsertResults = await client.query(`INSERT INTO "feedback" ("feeling", "understanding", "support", "comments", "flagged", "date")
+            const feedbackInsertResults = await client.query(`INSERT INTO "feedback" ("feeling", "understanding", "support", "comments, "flagged", "date"")
                 VALUES ($1, $2, $3, $4, $5, NOW()) 
                 RETURNING id;`, [feeling, understanding, support, comments, false]);
 

@@ -5,34 +5,34 @@ import './FeedbackReview.css';
 
 // Acess to feedback object from store.
 function FeedbackReview() {
-
-    const history = useHistory();  // for nav capability
-    const dispatch = useDispatch();  // dispatch actions to store
-
+ // Constructs the feedback data with required fields from store
     const feeling = useSelector((store) => store.feeling)
     const understanding = useSelector((store) => store.understanding)
     const support = useSelector((store) => store.support)
     const comments = useSelector((store) => store.comments)
 
-
-    // Constructs the feedback data with required fields from store
-    const feedbackData = {
-          feeling: feeling[0],
-          understanding: understanding[0],
-          support: support[0],
-          comments: comments,
-    };
+    const history = useHistory();  // for nav capability
+    const dispatch = useDispatch();  // dispatch actions to store
+   
 
     // Function to handle submission form 
     const handleSubmit = () => {
-        axios.post('/api/feedback', feedbackData)  // POST request to server for feedback
+        const feedbackData = {
+            feeling,
+            understanding,
+            support,
+            comments,
+        };
+        axios
+        .post('/api/feedback', feedbackData)  // POST request to server for feedback
         .then((response) => {
-                history.push('/'); 
-                console.log('error') // redirect to home after success
-            dispatch({  
-                type: 'RESET_ALL_FEEDBACK', // Resets the feedback.
-            });
-        }).catch((err) => { // logs any errors that may have occured
+            console.log('Feedback submitted successfully:', response.data)
+           
+            dispatch({ type: 'RESET_ALL_FEEDBACK'});
+            
+            history.push('/');
+        })
+        .catch((err) => { // logs any errors that may have occured
             console.error('Error submitting feedback', err)
         })
 
@@ -50,10 +50,10 @@ function FeedbackReview() {
             <div className="reviewBox">
                 <h3>Review Your Feedback</h3>
                 <ul>
-                    <li>Feeling: {feeling[0]}</li>
-                    <li>Understanding: {understanding[0]}</li>
-                    <li>Support: {support[0]}</li>
-                    <li>Comments: {comments}</li>
+                    <li>feeling: {feeling[0] || 'No feedback Provided'}</li>
+                    <li>Understanding: {understanding[0] || 'No feedback Provided'}</li>
+                    <li>Support: {support[0] || 'No feedback Provided'}</li>
+                    <li>Comments: {comments || 'No feedback Provided'}</li>
                 </ul>
             </div>
             <button onClick={handleSubmit}>SUBMIT FEEDBACK</button>

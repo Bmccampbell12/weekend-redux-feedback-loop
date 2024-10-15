@@ -1,16 +1,33 @@
 import { useSelector } from 'react-redux';
 
+const initialState = {
+    feeling: null,
+    understanding: null,
+    support: null,
+    comments: "",
+    submissions: [],
+}
+
 const feedbackReducer = (state = initialState, action) => {
-    if (action.type === 'RESET_ALL_FEEDBACK')
+    switch (action.type) {
+        case 'RESET_ALL_FEEDBACK':
         return {
+            ...state,
     feeling: null,
     understanding: null,
     support: null,
     comments: "",
 } 
-return state;
+case 'ADD_FEEDBACK':
+return { 
+    ...state,
+    submissions: [...state.submissions, action.payload],
 }
+default: 
 
+return state;
+    }
+}
 
 // Access feedback submissions from store
 function FeedbackReview() {                         // Allows access to submissions
